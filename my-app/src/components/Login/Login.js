@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 const Login= () => {
 
   //CADA UNO AQUI PONE SU ID GENERADO DE GOOGLE CLOUD
-  const CLIENT_ID = "186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com";
+  const CLIENT_ID = "924919494082-eqbiegmiagtg2cg2krsh0amkbr3j7svc.apps.googleusercontent.com";
   
   const loginSuccessResponseHandler = (credentialResponse) => {
     //console.log(credentialResponse);
