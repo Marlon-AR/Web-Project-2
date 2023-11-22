@@ -1,11 +1,14 @@
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
+import '../Login/login.scss'
 
 const Login= () => {
 
   //CADA UNO AQUI PONE SU ID GENERADO DE GOOGLE CLOUD
-  const CLIENT_ID = "924919494082-eqbiegmiagtg2cg2krsh0amkbr3j7svc.apps.googleusercontent.com";
+/*API DE CRISTIAN*/'186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com'
+
+  const CLIENT_ID = "186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com";
   
   const loginSuccessResponseHandler = (credentialResponse) => {
     //console.log(credentialResponse);
@@ -24,12 +27,13 @@ const Login= () => {
   
   return (
     <GoogleOAuthProvider clientId={CLIENT_ID}>
-      <div className="App">
-        <h1>App JS</h1>
+      <div className="login-container">
+        <h3 className="title">Inicia sección con google</h3>
+        <div className="google-login">
         <GoogleLogin
           onSuccess={loginSuccessResponseHandler}
-          onError={loginErrorResponseHandler}
-        />
+          onError={loginErrorResponseHandler}/>  
+        </div>
       </div>
     </GoogleOAuthProvider>
   );
