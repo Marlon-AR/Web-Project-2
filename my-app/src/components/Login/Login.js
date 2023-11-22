@@ -6,7 +6,7 @@ import '../Login/login.scss'
 const Login= () => {
 
   //CADA UNO AQUI PONE SU ID GENERADO DE GOOGLE CLOUD
-/*API DE CRISTIAN*/'186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com'
+  /*ID DE CRISTIAN*/'186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com'
 
   const CLIENT_ID = "186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com";
   
