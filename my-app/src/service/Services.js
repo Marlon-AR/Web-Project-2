@@ -4,6 +4,7 @@ import {
     addDoc,
     doc,
     getDoc,
+    deleteDoc,
 } from 'firebase/firestore';
 
 //****************************************************************
@@ -34,6 +35,20 @@ export const getUserDataById = async (idPost) => {
       }
 };
 
+
+//****************************************************************
+// ELIMINAR UN POST EN ESPESIFICO SEGUN SU ID DE POST
+export const deletePostById = async (idPost) => {
+    try {
+      const postDocRef = doc(db, 'posts', idPost); // Referencia al documento que quieres eliminar
+      await deleteDoc(postDocRef); // Elimina el documento usando la referencia
+  
+      console.log('Documento eliminado exitosamente');
+    } catch (error) {
+      console.error('Error al intentar eliminar el documento:', error.message);
+      throw new Error(error.message);
+    }
+  };
 
 
 //****************************************************************
