@@ -35,11 +35,6 @@ const VerPost=() => {
   const handleEdit = (postId) => {
   };
   
-  /*const handleDelete = () => {
-    const localIdPost = localStorage.getItem('postId');
-    deletePostById(localIdPost);
-    console.log(localIdPost)
-  };*/
 
   /********************************* MODAL **********************************************/
 

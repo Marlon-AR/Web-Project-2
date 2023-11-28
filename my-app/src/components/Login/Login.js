@@ -3,6 +3,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import '../Login/login.scss'
 import { useNavigate } from 'react-router-dom';
+import { getAllUserData,uploadUser } from '../../service/Services'
 
 const Login= () => {
 
@@ -20,9 +21,14 @@ const Login= () => {
     localStorage.setItem('email', decoded.email);
     localStorage.setItem('nombre', decoded.name);
     localStorage.setItem('idUser', decoded.aud);
-    
+
+    uploadUser(decoded)//PRIMERO CONSULTA SI EL USUARIO EXISTE Y SI NO LO GUARDA
+
     //NAVEGA AL INFO POST
     navigate('/infoPost');
+    const datos = getAllUserData()
+    console.log({datos})
+
   }
 
   const loginErrorResponseHandler = () => {
