@@ -21,21 +21,28 @@ export const uploadUser = async(userInfo) => {
 
 //****************************************************************
 // VALIDAR USERS A FIRESTORE
-export const uploadUserData = async (idPost) => {
+export const uploadUserData = async (idPost,decoded) => {
   try {
-    const userDocRef = doc(db, 'users', idPost);
-    const userDocSnapshot = await getDoc(userDocRef);
-
-    if (userDocSnapshot.exists()) {
+    const usersCollectionRef = collection(db, 'users');
+    const querySnapshot = await getDocs(usersCollectionRef);
+    const userData = [];
+    
+    querySnapshot.forEach((doc) => {
+        userData.push({ id: doc.id, ...doc.data() });
+    });
+    const userExists = userData.find(user => user.aud === idPost);
+    
+    if (userExists) {
       console.log('El usuario existe en Firestore.');
-      return { id: userDocSnapshot.id, ...userDocSnapshot.data() };
+      return userExists;
     } else {
       console.log('El usuario no existe en Firestore.');
-      return null;
+      uploadUser(decoded)
     }
-  } catch (error) {
-    throw new Error('Error al buscar el usuario en Firestore: ' + error.message);
-  }
+     
+} catch (error) {
+    throw new Error(error.message);
+}
 };
 
 //****************************************************************
@@ -80,7 +87,6 @@ export const getAllUserData = async () => {
   try {
       const usersCollectionRef = collection(db, 'users');
       const querySnapshot = await getDocs(usersCollectionRef);
-      
       const userData = [];
       querySnapshot.forEach((doc) => {
           userData.push({ id: doc.id, ...doc.data() });
