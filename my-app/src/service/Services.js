@@ -20,7 +20,7 @@ export const uploadUser = async(userInfo) => {
 }
 
 //****************************************************************
-// VALIDAR USERS A FIRESTORE
+// VALIDAR USERS DE FIRESTORE
 export const uploadUserData = async (idPost,decoded) => {
   try {
     const usersCollectionRef = collection(db, 'users');
@@ -78,44 +78,3 @@ export const deletePostById = async (idPost) => {
       throw new Error(error.message);
     }
   };
-
-
-//****************************************************************
-
-// Obtener todos los documentos de una colección
-export const getAllUserData = async () => {
-  try {
-      const usersCollectionRef = collection(db, 'users');
-      const querySnapshot = await getDocs(usersCollectionRef);
-      const userData = [];
-      querySnapshot.forEach((doc) => {
-          userData.push({ id: doc.id, ...doc.data() });
-      });
-      
-      return userData;
-  } catch (error) {
-      throw new Error(error.message);
-  }
-}
-
-
-
-//****************************************************************
-/*
-// Obtener datos con una condición específica
-export const getUsersByCondition = async (field, value) => {
-    try {
-        const usersCollectionRef = collection(db, 'users');
-        const q = query(usersCollectionRef, where(field, '==', value));
-        const querySnapshot = await getDocs(q);
-
-        const userData = [];
-        querySnapshot.forEach((doc) => {
-            userData.push({ id: doc.id, ...doc.data() });
-        });
-
-        return userData;
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}*/
