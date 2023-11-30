@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUserDataById, deletePostById, getUserDataPostById } from '../../service/Services';
+import { getUserDataById, deletePostById, getUserDataPostById, uploadComments } from '../../service/Services';
 import '../InfoPost/infoPost.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa los estilos de Bootstrap
 import { Modal, Button } from 'react-bootstrap'; // Asegúrate de importar el Modal y Button de react-bootstrap
@@ -9,8 +9,12 @@ const VerPost=() => {
   const [postData, setpostData] = useState([]);
   const [userData, setuserData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [comment, setComment] = useState('');
 
+  //PARA GUARDAR LAS VARIABLES DE COMENTARIOS
+  const [comment, setComment] = useState('');
+  const [postId, setpostId] = useState('');
+  const [userId, setuserId] = useState('');
+  const [userName, setuserName] = useState('');
 
   //const navigate = useNavigate(); //SE UNSA EN EL METODO DE 'confirmDelete'
 
@@ -24,13 +28,16 @@ const VerPost=() => {
         const post = await getUserDataById(idPost);
         if (post) {
           setpostData([post]);
-          
+          setpostId(post.id) //GUARDA EL ID DEL POST PARA EL COMENTARIO
+
           //BUSCAR DATOS DEL USUARIO POR MEDIO DEL USERID DEL POST CREADO
           try { 
             const user = await getUserDataPostById(post.userId);
             //console.log(user);
             if (user) {
               setuserData([user]);
+              setuserId(user.aud)
+              setuserName(user.name)
             } else {
               console.log('No se encontró el usuario del post');
             }
@@ -115,7 +122,8 @@ const VerPost=() => {
             <button variant="success"
             className="btn btn-success mt-2"
             onClick={() => {
-              console.log('Comentario enviado:', comment);
+              //console.log('Comentario enviado:', comment);
+              uploadComments(comment,postId,userId,userName)
               setComment('');//LIMPIAR CAMPO
             }}>Enviar comentario</button>
           </div>

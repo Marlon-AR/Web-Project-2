@@ -23,9 +23,17 @@ export const uploadUser = async(userInfo) => {
 
 //****************************************************************
 // GUARDAR COMENTARIOS A FIRESTORE
-export const uploadComments = async(userInfo) => {
+export const uploadComments = async(body,postId,id,username) => {
+  const commentsData = {
+    body,
+    postId,
+    user: {
+      id,
+      username
+    }
+  };
   try {
-      const commentsDocRef = await addDoc(collection(db,'comments'),userInfo);
+      const commentsDocRef = await addDoc(collection(db,'comments'),commentsData);
       return commentsDocRef.id
   } catch (error) {
       throw new Error(error.message);
