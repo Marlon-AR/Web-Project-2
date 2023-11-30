@@ -18,9 +18,24 @@ export const uploadUser = async(userInfo) => {
         throw new Error(error.message);
     }
 }
+//****************************************************************
+
 
 //****************************************************************
-// VALIDAR USERS DE FIRESTORE
+// GUARDAR COMENTARIOS A FIRESTORE
+export const uploadComments = async(userInfo) => {
+  try {
+      const commentsDocRef = await addDoc(collection(db,'comments'),userInfo);
+      return commentsDocRef.id
+  } catch (error) {
+      throw new Error(error.message);
+  }
+};
+//****************************************************************
+
+
+//****************************************************************
+// VALIDAR SI LOS USERS ESTAN EN FIRESTORE
 export const uploadUserData = async (idPost,decoded) => {
   try {
     const usersCollectionRef = collection(db, 'users');
@@ -44,9 +59,10 @@ export const uploadUserData = async (idPost,decoded) => {
     throw new Error(error.message);
 }
 };
-
 //****************************************************************
 
+
+//****************************************************************
 // OBTENER UN POST EN ESPESIFICO SEGUN SU ID DE POST
 export const getUserDataById = async (idPost) => {
     try {
@@ -63,6 +79,35 @@ export const getUserDataById = async (idPost) => {
         throw new Error(error.message);
       }
 };
+//****************************************************************
+
+
+
+//****************************************************************
+// OBTENER LOS DATOS USER DEL CREADOR DEL POST SELECIONADO DESDE HOME,SEGUN SU ID
+export const getUserDataPostById = async (idUser) => {
+  try {
+    const usersCollectionRef = collection(db, 'users');
+    const querySnapshot = await getDocs(usersCollectionRef);
+    const userData = [];
+    
+    querySnapshot.forEach((doc) => {
+        userData.push({ id: doc.id, ...doc.data() });
+    });
+    const userExists = userData.find(user => user.aud === idUser);
+    
+    if (userExists) {
+      console.log('SI');
+      return userExists;
+    } else {
+      console.log('NO');
+    }
+     
+} catch (error) {
+    throw new Error(error.message);
+}
+};
+//****************************************************************
 
 
 //****************************************************************
@@ -78,3 +123,4 @@ export const deletePostById = async (idPost) => {
       throw new Error(error.message);
     }
   };
+  //****************************************************************
