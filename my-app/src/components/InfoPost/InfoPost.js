@@ -17,7 +17,10 @@ const VerPost=() => {
   const [userName, setuserName] = useState('');
 
   //PARA ALMACENAR LOS DATOS DEL POST Y PODER EDITARLOS
-  const [isEditing, setIsEditing] = useState(false); // Estado para habilitar/deshabilitar modo de edición
+  const [initialTitle, setInitialTitle] = useState(''); // GUARDA EL TITULO INICIAL PARA VOLVER A PINTARLO EN EDITAR
+  const [initialBody, setInitialBody] = useState(''); // GUARDA EL BODY INICIAL PARA VOLVER A PINTARLO EN EDITAR
+
+  const [isEditing, setIsEditing] = useState(false); // HABILITA Y DESHABILITA EL MODO DE EDICION
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
 
@@ -37,6 +40,10 @@ const VerPost=() => {
           setEditedTitle(post.title)
           setEditedBody(post.body)
 
+          setInitialTitle(post.title); // Guardar el título inicial al cargar
+          setInitialBody(post.body); // Guardar el cuerpo inicial al cargar
+
+          
           //BUSCAR DATOS DEL USUARIO POR MEDIO DEL USERID DEL POST CREADO
           try { 
             const user = await getUserDataPostById(post.userId);
@@ -47,6 +54,7 @@ const VerPost=() => {
               setuserName(user.name)
             } else {
               console.log('No se encontró el usuario del post');
+              return null;
             }
           } catch (error) {
             console.error('Error al obtener el post:', error);
@@ -67,6 +75,7 @@ const VerPost=() => {
   const handleEdit = () => {
     setIsEditing(true);
   };  
+
   const handleSave = async () => {
     try {
       //await updatePostById(postData.id, { title: editedTitle, body: editedBody });
@@ -74,6 +83,12 @@ const VerPost=() => {
     } catch (error) {
       console.error('Error al guardar los cambios:', error);
     }
+  };
+
+  const handleCancel = () => {
+    setEditedTitle(initialTitle); // Revertir los cambios al título original
+    setEditedBody(initialBody); // Revertir los cambios al cuerpo original
+    setIsEditing(false); // Salir del modo de edición
   };
   
   /********************************* EDITAR **********************************************/
@@ -126,6 +141,7 @@ const VerPost=() => {
                 value={editedTitle}
                 onChange={(e) => setEditedTitle(e.target.value)}
                 className="title-input" // Clase para mantener los estilos del título
+                placeholder="Título"
               />
               <textarea
                 value={editedBody}
@@ -133,13 +149,17 @@ const VerPost=() => {
                 rows={4}
                 cols={50}
                 className="body-textarea" // Clase para mantener los estilos del cuerpo del post
+                placeholder="Cuerpo del post..."
               />
-              <button onClick={handleSave}>Guardar cambios</button>
+              <div className="button-container">
+              <button onClick={handleSave} className="btn btn-primary mt-2" >Guardar cambios</button>
+              <button onClick={handleCancel} className="btn btn-danger mt-2">Cancelar</button>
+              </div>
             </>
           ) : (
           <>
-          <h3>{post.title}</h3>
-          <p>{post.body}</p>
+          <h3 className="post-title">{post.title}</h3>
+          <p className="post-body">{post.body}</p>
           {userData.map((user) =>(
             <p className='p-Autor'>{user.name}</p>
           ))}
