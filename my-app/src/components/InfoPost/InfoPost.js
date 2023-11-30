@@ -16,6 +16,11 @@ const VerPost=() => {
   const [userId, setuserId] = useState('');
   const [userName, setuserName] = useState('');
 
+  //PARA ALMACENAR LOS DATOS DEL POST Y PODER EDITARLOS
+  const [isEditing, setIsEditing] = useState(false); // Estado para habilitar/deshabilitar modo de edición
+  const [editedTitle, setEditedTitle] = useState('');
+  const [editedBody, setEditedBody] = useState('');
+
   //const navigate = useNavigate(); //SE UNSA EN EL METODO DE 'confirmDelete'
 
 
@@ -29,6 +34,8 @@ const VerPost=() => {
         if (post) {
           setpostData([post]);
           setpostId(post.id) //GUARDA EL ID DEL POST PARA EL COMENTARIO
+          setEditedTitle(post.title)
+          setEditedBody(post.body)
 
           //BUSCAR DATOS DEL USUARIO POR MEDIO DEL USERID DEL POST CREADO
           try { 
@@ -57,8 +64,18 @@ const VerPost=() => {
   }, []);
 
   /********************************* EDITAR **********************************************/
-  const handleEdit = (postId) => {
+  const handleEdit = () => {
+    setIsEditing(true);
   };  
+  const handleSave = async () => {
+    try {
+      //await updatePostById(postData.id, { title: editedTitle, body: editedBody });
+      //setIsEditing(false);
+    } catch (error) {
+      console.error('Error al guardar los cambios:', error);
+    }
+  };
+  
   /********************************* EDITAR **********************************************/
 
   /********************************* MODAL **********************************************/
@@ -100,9 +117,27 @@ const VerPost=() => {
         </Modal.Footer>
       </Modal>
     <div>
-
       {postData.map((post) => (
         <div className="post" key={post.id}>
+          {isEditing ? (
+            <>
+              <input
+                type="text"
+                value={editedTitle}
+                onChange={(e) => setEditedTitle(e.target.value)}
+                className="title-input" // Clase para mantener los estilos del título
+              />
+              <textarea
+                value={editedBody}
+                onChange={(e) => setEditedBody(e.target.value)}
+                rows={4}
+                cols={50}
+                className="body-textarea" // Clase para mantener los estilos del cuerpo del post
+              />
+              <button onClick={handleSave}>Guardar cambios</button>
+            </>
+          ) : (
+          <>
           <h3>{post.title}</h3>
           <p>{post.body}</p>
           {userData.map((user) =>(
@@ -133,7 +168,8 @@ const VerPost=() => {
             <span style={{ margin: '0 5px' }}></span> {/* Solo Agrega un Espacio entre los botones de boostrap */}
             <button className="btn btn-danger mt-2" onClick={() => handleDelete(post.id)} disabled>Eliminar</button>
           </div>
-
+          </>
+          )}
         </div>
       ))}
     </div>

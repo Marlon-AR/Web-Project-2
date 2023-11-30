@@ -59,6 +59,15 @@
         }
       }
     }
+    .title-input,
+  .body-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    resize: vertical;
+    box-sizing: border-box;
+    // Otros estilos necesarios para el input y textarea en modo edición
+  }
   }
 }
 
