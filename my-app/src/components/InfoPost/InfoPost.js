@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUserDataById, deletePostById, getUserDataPostById, uploadComments } from '../../service/Services';
+import { getUserDataById, deletePostById, getUserDataPostById, uploadComments, updatePostById } from '../../service/Services';
 import '../InfoPost/infoPost.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa los estilos de Bootstrap
 import { Modal, Button } from 'react-bootstrap'; // Asegúrate de importar el Modal y Button de react-bootstrap
@@ -27,7 +27,7 @@ const VerPost=() => {
   //const navigate = useNavigate(); //SE UNSA EN EL METODO DE 'confirmDelete'
 
 
-  const idPost = '9f2GZZ0s1Ywlf4VE0C7V'//ENVIAR EL ID DEL POST SELECIONADO DESDE EL HOME
+  const idPost = 'Uv7Y0cQz3LX2clfjCdQk'//ENVIAR EL ID DEL POST SELECIONADO DESDE EL HOME
   localStorage.setItem('postId', idPost);//guardar en local esta linea la tengo que borrar luego.kassandra ya me va asubir el iddel post
 
   useEffect(() => {
@@ -78,8 +78,11 @@ const VerPost=() => {
 
   const handleSave = async () => {
     try {
-      //await updatePostById(postData.id, { title: editedTitle, body: editedBody });
-      //setIsEditing(false);
+      const postId = localStorage.getItem('postId');
+      console.log(editedTitle)
+      console.log(editedBody)
+      await updatePostById(postId, { title: editedTitle, body: editedBody });
+      setIsEditing(false);
     } catch (error) {
       console.error('Error al guardar los cambios:', error);
     }
@@ -180,6 +183,7 @@ const VerPost=() => {
               //console.log('Comentario enviado:', comment);
               uploadComments(comment,postId,userId,userName)
               setComment('');//LIMPIAR CAMPO
+
             }}>Enviar comentario</button>
           </div>
           

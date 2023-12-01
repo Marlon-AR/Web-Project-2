@@ -6,6 +6,7 @@ import {
     getDoc,
     deleteDoc,
     getDocs,
+    updateDoc
 } from 'firebase/firestore';
 
 //****************************************************************
@@ -132,3 +133,19 @@ export const deletePostById = async (idPost) => {
     }
   };
   //****************************************************************
+
+//****************************************************************
+//EDITA LOS NUEVOS CAMPOS DEL POST TITULO Y CUERPO
+export const updatePostById = async (postId, updatedData) => {
+  try {
+    const postDocRef = doc(db, 'posts', postId); // Referencia al documento del post por su ID
+
+    await updateDoc(postDocRef, updatedData);
+
+    console.log('¡Post actualizado exitosamente en Firestore!');
+  } catch (error) {
+    console.error('Error al actualizar el post en Firestore:', error);
+    throw new Error(error.message);
+  }
+};
+//****************************************************************
