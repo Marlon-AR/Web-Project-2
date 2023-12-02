@@ -1,0 +1,87 @@
+@import '../../styles/variables/colors.scss';
+@import '../../styles/mixins/media-quieries.scss';
+
+.navigation {
+
+    .hero-image {
+        background-image: url("../../images/img-bnav.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 17%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .hero-text {
+            color: #ffff;
+            text-align: center;
+
+            h1 {
+                font-size: 40px;
+                /*Tamaño del texto welcome*/
+                font-weight: bold;
+                font-style: italic;
+                -webkit-text-stroke: 2px rgba(255, 255, 255, 0.637);
+                /*Le da delineado al texto*/
+            }
+
+
+        }
+    }
+
+    .bnav {
+
+        background-color: $color-main;
+        color: $color-white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+
+        ul {
+
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            flex-grow: 1;
+            justify-content: center;
+
+            li input {
+
+                color: $color-dark-white;
+                padding: 10px 5px;
+            }
+        }
+
+        button {
+
+            display: flex;
+            top: 50px;
+            right: 10px;
+            margin: 3px;
+            background-color: $color-grey;
+            border: none;
+            color: $color-white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px $color-black;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $color-blue-grey;
+            }
+        }
+
+        /* Media query para pantallas más pequeñas (responsive) */
+        @include respond-to($tablet) {
+            .navigation {
+                width: 360px;
+                padding: 50px;
+            }
+        }
+    }
+}
