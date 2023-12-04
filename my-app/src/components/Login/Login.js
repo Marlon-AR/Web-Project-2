@@ -11,7 +11,8 @@ const Login= () => {
   /*ID DE Marlon*/'924919494082-eqbiegmiagtg2cg2krsh0amkbr3j7svc.apps.googleusercontent.com'
   /*ID DE CRISTIAN*/'186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com'
   /*ID DE KAREN*/'999930076380-lmdbg9mc5c75uceiqq6brjj7gmlgefhh.apps.googleusercontent.com'
-  const CLIENT_ID = "186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com";
+  /*ID DE KASANDRA*/'999930076380-qk5iaulidolr0ve6jpekaia9krcfhfev.apps.googleusercontent.com'
+  const CLIENT_ID = "999930076380-qk5iaulidolr0ve6jpekaia9krcfhfev.apps.googleusercontent.com";
   
   //constante para navegar
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Login= () => {
     localStorage.setItem('idUser', decoded.aud);
 
     //NAVEGA AL HOME
-    navigate('/infoPost');
+    navigate('/home');
 
     //VALIDA SI EL USUARIO EXISTE EN LA BD Y SI NO EXISTE LO GUARDA 
     uploadUserData(decoded.aud,decoded) 

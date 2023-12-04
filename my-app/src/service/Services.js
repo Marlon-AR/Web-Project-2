@@ -6,8 +6,9 @@ import {
     getDoc,
     deleteDoc,
     getDocs,
+    updateDoc,
     query,
-    where,
+    where
 } from 'firebase/firestore';
 
 //****************************************************************
@@ -20,28 +21,66 @@ export const uploadUser = async(userInfo) => {
         throw new Error(error.message);
     }
 }
+//****************************************************************
+
 
 //****************************************************************
-// VALIDAR USERS A FIRESTORE
-export const uploadUserData = async (idPost) => {
-  try {
-    const userDocRef = doc(db, 'users', idPost);
-    const userDocSnapshot = await getDoc(userDocRef);
+// GUARDAR COMENTARIOS A FIRESTORE
+export const uploadComments = async(body,postId,id,username) => {
 
-    if (userDocSnapshot.exists()) {
-      console.log('El usuario existe en Firestore.');
-      return { id: userDocSnapshot.id, ...userDocSnapshot.data() };
-    } else {
-      console.log('El usuario no existe en Firestore.');
-      return null;
+  /*if (!titulo || !descripcion || !precio || !imagenURL) {
+    setError('Por favor completa todos los campos');
+    return;
+  }else{
+    
+  }*/
+  const commentsData = {
+    body,
+    postId,
+    user: {
+      id,
+      username
     }
+  };
+  try {
+      const commentsDocRef = await addDoc(collection(db,'comments'),commentsData);
+      return commentsDocRef.id
   } catch (error) {
-    throw new Error('Error al buscar el usuario en Firestore: ' + error.message);
+      throw new Error(error.message);
   }
 };
-
 //****************************************************************
 
+
+//****************************************************************
+// VALIDAR SI LOS USERS ESTAN EN FIRESTORE
+export const uploadUserData = async (idPost,decoded) => {
+  try {
+    const usersCollectionRef = collection(db, 'users');
+    const querySnapshot = await getDocs(usersCollectionRef);
+    const userData = [];
+    
+    querySnapshot.forEach((doc) => {
+        userData.push({ id: doc.id, ...doc.data() });
+    });
+    const userExists = userData.find(user => user.aud === idPost);
+    
+    if (userExists) {
+      console.log('El usuario existe en Firestore.');
+      return userExists;
+    } else {
+      console.log('El usuario no existe en Firestore.');
+      uploadUser(decoded)
+    }
+     
+} catch (error) {
+    throw new Error(error.message);
+}
+};
+//****************************************************************
+
+
+//****************************************************************
 // OBTENER UN POST EN ESPESIFICO SEGUN SU ID DE POST
 export const getUserDataById = async (idPost) => {
     try {
@@ -58,6 +97,7 @@ export const getUserDataById = async (idPost) => {
         throw new Error(error.message);
       }
 };
+//****************************************************************
 
 //****************************************************************
 
@@ -119,6 +159,32 @@ export const getAllPostsFromFirestore = async () => {
 };
 
 //****************************************************************
+// OBTENER LOS DATOS USER DEL CREADOR DEL POST SELECIONADO DESDE HOME,SEGUN SU ID
+export const getUserDataPostById = async (idUser) => {
+  try {
+    const usersCollectionRef = collection(db, 'users');
+    const querySnapshot = await getDocs(usersCollectionRef);
+    const userData = [];
+    
+    querySnapshot.forEach((doc) => {
+        userData.push({ id: doc.id, ...doc.data() });
+    });
+    const userExists = userData.find(user => user.aud === idUser);
+    
+    if (userExists) {
+      console.log('SI');
+      return userExists;
+    } else {
+      console.log('NO');
+    }
+     
+} catch (error) {
+    throw new Error(error.message);
+}
+};
+//****************************************************************
+
+//****************************************************************
 // GUARDAR POSTS A FIRESTORE
 export const uploadPost = async(userInfo) => {
   try {
@@ -142,43 +208,58 @@ export const deletePostById = async (idPost) => {
       throw new Error(error.message);
     }
   };
-
+  //****************************************************************
 
 //****************************************************************
-
-// Obtener todos los documentos de una colección
-export const getAllUserData = async () => {
+//EDITA LOS NUEVOS CAMPOS DEL POST TITULO Y CUERPO
+export const updatePostById = async (postId, updatedData) => {
   try {
-      const usersCollectionRef = collection(db, 'users');
-      const querySnapshot = await getDocs(usersCollectionRef);
-      
-      const userData = [];
-      querySnapshot.forEach((doc) => {
-          userData.push({ id: doc.id, ...doc.data() });
-      });
-      
-      return userData;
+    const postDocRef = doc(db, 'posts', postId); // Referencia al documento del post por su ID
+
+    await updateDoc(postDocRef, updatedData);
+
+    console.log('¡Post actualizado exitosamente en Firestore!');
   } catch (error) {
-      throw new Error(error.message);
+    console.error('Error al actualizar el post en Firestore:', error);
+    throw new Error(error.message);
   }
-}
-
+};
 //****************************************************************
-/*
-// Obtener datos con una condición específica
-export const getUsersByCondition = async (field, value) => {
-    try {
-        const usersCollectionRef = collection(db, 'users');
-        const q = query(usersCollectionRef, where(field, '==', value));
-        const querySnapshot = await getDocs(q);
 
-        const userData = [];
-        querySnapshot.forEach((doc) => {
-            userData.push({ id: doc.id, ...doc.data() });
-        });
+/*export const getCommentsByPostId = async (postId) => {
+  try {
+    const commentsCollectionRef = collection(db, 'comments');
+    const commentsQuery = query(commentsCollectionRef, where('postId', '==', postId));
+    const commentsSnapshot = await getDocs(commentsQuery);
 
-        return userData;
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}*/
+    const comments = commentsSnapshot.docs.map((commentDoc) => {
+      const commentData = commentDoc.data();
+      const userData = commentData.user || {}; // Manejar el caso en que user es undefined
+      console.log(userData.username)
+      return {
+        id: commentDoc.id,
+        ...commentData,
+        userId: userData.id,
+        username: userData.username,
+      };
+    });
+
+    return comments;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};*/
+
+export const getCommentsByPostId = async (postId) => {
+  try {
+    const commentsCollectionRef = collection(db, 'comments');
+    const commentsQuery = query(commentsCollectionRef, where('postId', '==', postId));
+    const commentsSnapshot = await getDocs(commentsQuery);
+
+    const comments = commentsSnapshot.docs.map((commentDoc) => commentDoc.data());
+
+    return comments;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
