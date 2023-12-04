@@ -1,0 +1,36 @@
+.buttons {
+    .btn-viewposts {
+        display: flex;
+        margin: 15px auto;
+        width: 79%;
+
+        button {
+            margin: 8px;
+            padding: 5px 10px;
+            background-color: $color-main;
+            color: $color-white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease 0s;
+        }
+    }
+
+    .btn-page {
+        margin: 0 auto;
+        width: 80%;
+        display: flex;
+        justify-content: center;
+
+        button {
+            margin: 3px;
+            padding: 5px 10px;
+            background-color: $color-main;
+            color: $color-white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease 0s;
+        }
+    }
+}

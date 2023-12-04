@@ -1,0 +1,115 @@
+@import '../../styles/mixins/media-quieries.scss';
+@import '../../styles/variables/colors.scss';
+@import './post.scss';
+
+.content {
+	border-radius: 10px;
+	padding: 10px;
+	margin: 0 auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 80%;
+
+	.grid-container {
+		display: grid;
+		grid-template-columns: repeat(1, auto);
+		gap: 20px;
+
+		.post {
+			background-color: $color-grey;
+			border-radius: 30px;
+			border: 2px solid $color-main;
+			box-shadow: 10px 8px 15px rgba(0, 0, 0, 0.1);
+			transition: all 0.3s ease 0s;
+			cursor: pointer;
+
+			h2 {
+				text-align: center;
+				font-size: large;
+				margin: 15px;
+			}
+
+			p {
+				text-align: justify;
+				margin: 20px;
+			}
+
+			.star-rating {
+				display: inline-block;
+
+				.star {
+					font-size: 24px;
+					color: $color-bone-white;
+					margin: 0 3px;
+					transition: color 0.3s;
+				}
+
+				.star.active {
+					color: $color-yellow;
+				}
+
+			}
+
+			.tags {
+				.tag-button {
+					margin: 10px;
+					padding: 5px 5px;
+					background-color: $color-main;
+					color: $color-white;
+					border: none;
+					border-radius: 5px;
+					cursor: pointer;
+				}
+
+				.tag-button:hover {
+					background-color: $color-light-green;
+					color: $color-white;
+				}
+
+				.tag-button:active {
+					background-color: $color-dark-green;
+					color: $color-white;
+				}
+			}
+
+		}
+
+		.post:hover {
+			background-color: $color-main;
+			border-radius: 30px 60px;
+			box-shadow: 0px 15px 20px $color-main;
+			transform: translateY(-7px);
+
+			h2 {
+				color: $color-white;
+			}
+
+			p {
+				color: $color-white;
+			}
+
+			.tags {
+				.tag-button {
+					background-color: $color-grey;
+				}
+
+				.tag-button:hover {
+					background-color: $color-light-green;
+					color: $color-white;
+				}
+
+				.tag-button:active {
+					background-color: $color-dark-green;
+					color: $color-white;
+				}
+
+			}
+		}
+	}
+
+	@include respond-to($tablet) {
+		.grid-container {
+			grid-template-columns: repeat(2, auto);
+		}
+	}
+}
