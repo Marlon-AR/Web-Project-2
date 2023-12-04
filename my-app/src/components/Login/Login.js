@@ -10,6 +10,7 @@ const Login= () => {
   //CADA UNO AQUI COLOCA SU ID GENERADO DE GOOGLE CLOUD DE CREDENCIALES
   /*ID DE Marlon*/'924919494082-eqbiegmiagtg2cg2krsh0amkbr3j7svc.apps.googleusercontent.com'
   /*ID DE CRISTIAN*/'186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com'
+  /*ID DE KAREN*/'999930076380-lmdbg9mc5c75uceiqq6brjj7gmlgefhh.apps.googleusercontent.com'
   const CLIENT_ID = "186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com";
   
   //constante para navegar
