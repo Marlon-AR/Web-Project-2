@@ -12,7 +12,7 @@ import '../InfoPost/infoPost.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa los estilos de Bootstrap
 import { Modal, Button } from 'react-bootstrap'; // Asegúrate de importar el Modal y Button de react-bootstrap
 //import { useNavigate } from 'react-router-dom';
-
+import Navigation from '../Navigator/navigator';
 
 const VerPost = () => {
   const [postData, setpostData] = useState([]);
@@ -165,102 +165,104 @@ const VerPost = () => {
 
   /***********************************COMENTARIOS********************************/
   return (
-
-    <div className="ver-post-container">
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirmar eliminación</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>¿Estás seguro de que deseas eliminar este post?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            No
-          </Button>
-          <Button variant="danger" onClick={confirmDelete}>
-            Sí
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <div>
-        {postData.map((post) => (
-          <div className="post" key={post.id}>
-            {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={editedTitle}
-                  onChange={(e) => setEditedTitle(e.target.value)}
-                  className="title-input" // Clase para mantener los estilos del título
-                  placeholder="Título"
-                />
-                <textarea
-                  value={editedBody}
-                  onChange={(e) => setEditedBody(e.target.value)}
-                  rows={4}
-                  cols={50}
-                  className="body-textarea" // Clase para mantener los estilos del cuerpo del post
-                  placeholder="Cuerpo del post..."
-                />
-                <div className="button-container">
-                  <button onClick={handleSave} className="btn btn-primary mt-2" >Guardar cambios</button>
-                  <button onClick={handleCancel} className="btn btn-danger mt-2">Cancelar</button>
-                </div>
-              </>
-            ) : (
-              <>
-                <h3 className="post-title">{post.title}</h3>
-                <p className="post-body">{post.body}</p>
-                {userData.map((user) => (
-                  <p className='p-Autor'>{user.name}</p>
-                ))}
-
-                <div className="comment-section">
-                  {/* Caja de texto para el comentario */}
+    <div>
+      <Navigation />
+      <div className="ver-post-container">
+        <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar eliminación</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>¿Estás seguro de que deseas eliminar este post?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              No
+            </Button>
+            <Button variant="danger" onClick={confirmDelete}>
+              Sí
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <div>
+          {postData.map((post) => (
+            <div className="post" key={post.id}>
+              {isEditing ? (
+                <>
+                  <input
+                    type="text"
+                    value={editedTitle}
+                    onChange={(e) => setEditedTitle(e.target.value)}
+                    className="title-input" // Clase para mantener los estilos del título
+                    placeholder="Título"
+                  />
                   <textarea
-                    value={comment}
-                    onChange={handleCommentChange}
-                    placeholder="Agrega tu comentario..."
+                    value={editedBody}
+                    onChange={(e) => setEditedBody(e.target.value)}
                     rows={4}
                     cols={50}
-                    className="comment-textarea"
+                    className="body-textarea" // Clase para mantener los estilos del cuerpo del post
+                    placeholder="Cuerpo del post..."
                   />
-                  <button variant="success"
-                    className="btn btn-success mt-2"
-                    onClick={() => {
-                      //console.log('Comentario enviado:', comment);
-                      uploadComments(comment, postId, userId, userName)
-                      setComment('');//LIMPIAR CAMPO
+                  <div className="button-container">
+                    <button onClick={handleSave} className="btn btn-primary mt-2" >Guardar cambios</button>
+                    <button onClick={handleCancel} className="btn btn-danger mt-2">Cancelar</button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="post-title">{post.title}</h3>
+                  <p className="post-body">{post.body}</p>
+                  {userData.map((user) => (
+                    <p className='p-Autor'>{user.name}</p>
+                  ))}
 
-                    }}>Enviar comentario</button>
+                  <div className="comment-section">
+                    {/* Caja de texto para el comentario */}
+                    <textarea
+                      value={comment}
+                      onChange={handleCommentChange}
+                      placeholder="Agrega tu comentario..."
+                      rows={4}
+                      cols={50}
+                      className="comment-textarea"
+                    />
+                    <button variant="success"
+                      className="btn btn-success mt-2"
+                      onClick={() => {
+                        //console.log('Comentario enviado:', comment);
+                        uploadComments(comment, postId, userId, userName)
+                        setComment('');//LIMPIAR CAMPO
 
-                  {/* Comentarios con nombres de usuario */}
-                  {post.comments && post.comments.map((comment, index) => (
+                      }}>Enviar comentario</button>
+
+                    {/* Comentarios con nombres de usuario */}
+                    {post.comments && post.comments.map((comment, index) => (
+                      <div key={index} className="comment-with-user">
+                        <p className="comment">{comment.text}</p>
+                        <p className="username">Username: {comment.username}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="button-container">
+                    <button className="btn btn-primary mt-2" onClick={() => handleEdit(post.id)}>Editar</button>
+                    <span style={{ margin: '0 5px' }}></span> {/* Solo Agrega un Espacio entre los botones de boostrap */}
+                    <button className="btn btn-danger mt-2" onClick={() => handleDelete(post.id)} disabled>Eliminar</button>
+                  </div>
+                  <br />
+                  <h1 className='title.comments'>Comentarios</h1>
+                  {commentsData.map((comment, index) => (
                     <div key={index} className="comment-with-user">
-                      <p className="comment">{comment.text}</p>
-                      <p className="username">Username: {comment.username}</p>
+                      <p className="username">{comment.username}</p>
+                      <p className="body">{comment.body}</p>
                     </div>
                   ))}
-                </div>
-
-                <div className="button-container">
-                  <button className="btn btn-primary mt-2" onClick={() => handleEdit(post.id)}>Editar</button>
-                  <span style={{ margin: '0 5px' }}></span> {/* Solo Agrega un Espacio entre los botones de boostrap */}
-                  <button className="btn btn-danger mt-2" onClick={() => handleDelete(post.id)} disabled>Eliminar</button>
-                </div>
-                <br />
-                <h1 className='title.comments'>Comentarios</h1>
-                {commentsData.map((comment, index) => (
-                  <div key={index} className="comment-with-user">
-                    <p className="username">{comment.username}</p>
-                    <p className="body">{comment.body}</p>
-                  </div>
-                ))}
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-      <div>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+        <div>
+        </div>
       </div>
     </div>
   );

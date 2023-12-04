@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { uploadPost } from '../../service/Services';
 import './form.css';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import Navigation from '../Navigator/navigator';
 
 const PostForm = () => {
   const [title, setTitle] = useState('');
@@ -56,49 +57,52 @@ const PostForm = () => {
       setBody('');
       setReactions('');
       setTags('');
-      
+
       // Mostrar mensaje de éxito temporalmente
       setShowSuccessMessage(true);
       setTimeout(() => {
-      setShowSuccessMessage(false);
+        setShowSuccessMessage(false);
       }, 3000); // Mensaje visible durante 3 segundos (3000 milisegundos)
-      
+
 
     } catch (error) {
       console.log(error.message);
     }
   };
-  const Exit = () =>{
+  const Exit = () => {
     const navigate = useNavigate();
     navigate('/');
   };
 
   return (
-    <form onSubmit={handleGuardarPost} className="formContainer">
-      <div className="formField">
-      <h1 className="formFieldTitulo">Formulario en React</h1 >
-      <label>Title:</label>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="inputField" />
+    <div>
+      <Navigation />
+      <form onSubmit={handleGuardarPost} className="formContainer">
+        <div className="formField">
+          <h1 className="formFieldTitulo">Formulario en React</h1 >
+          <label>Title:</label>
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="inputField" />
         </div>
-      <label>Body:</label>
-        <textarea value={body} onChange={(e) => setBody(e.target.value)}className="inputField" />
-      <br />
-      <label>Reactions:</label>
-        <input type="number" value={reactions} onChange={(e) => setReactions(e.target.value)}className="inputField" />
-      <br />
-      <label>Tags:</label>
-        <input type="text" value={tags} onChange={(e) => setTags(e.target.value)}className="inputField" />
-      <br />
-      <br>
-      </br>
-      <div class="buttonContainer">
-        <button type="submit"className="submitButton">Save</button>
-        <button onClick={Exit} className="submitButtonSalir">Exit</button>
-      </div>
-      {showSuccessMessage && <p style={{ color: 'green' }}>¡Datos guardados!</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      
-    </form>
+        <label>Body:</label>
+        <textarea value={body} onChange={(e) => setBody(e.target.value)} className="inputField" />
+        <br />
+        <label>Reactions:</label>
+        <input type="number" value={reactions} onChange={(e) => setReactions(e.target.value)} className="inputField" />
+        <br />
+        <label>Tags:</label>
+        <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} className="inputField" />
+        <br />
+        <br>
+        </br>
+        <div class="buttonContainer">
+          <button type="submit" className="submitButton">Save</button>
+          <button onClick={Exit} className="submitButtonSalir">Exit</button>
+        </div>
+        {showSuccessMessage && <p style={{ color: 'green' }}>¡Datos guardados!</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      </form>
+    </div>
   );
 };
 

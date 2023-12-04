@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import List from './List';
 import { getPostByIdUser, getAllPostsFromFirestore } from '../../service/Services';
 import { useNavigate } from 'react-router-dom';
+import Navigation from '../Navigator/navigator';
 
 const Posts = () => {
   const [allPosts, setAllPosts] = useState([]);
@@ -81,44 +82,47 @@ const Posts = () => {
     }
   };
 
-  const createPost = () =>{
+  const createPost = () => {
     navigate('/postForm');
   };
 
   return (
-    <div className='buttons'>
-      <div className='btn-viewposts'>
-        <p>See posts by:</p>
-        <button className='btn-user' onClick={handleViewUserPost}>
-          USER
-        </button>
-        <button className='btn-all' onClick={handleViewAllPost}>
-          ALL
-        </button>
-        <button className='btn-create' onClick={createPost}>
-          CREATE POST
-        </button>
-      </div>
-      {allPosts.length ? (
-        <List data={currentPosts} onTagClick={handleTagClick} />
-      ) : (
-        <p>Loading</p>
-      )}
-      <div className='btn-page'>
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className='btn-last'
-        >
-          Last
-        </button>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === 2} // Update this condition based on your actual data
-          className='btn-next'
-        >
-          Next
-        </button>
+    <div>
+      <Navigation />
+      <div className='buttons'>
+        <div className='btn-viewposts'>
+          <p>See posts by:</p>
+          <button className='btn-user' onClick={handleViewUserPost}>
+            USER
+          </button>
+          <button className='btn-all' onClick={handleViewAllPost}>
+            ALL
+          </button>
+          <button className='btn-create' onClick={createPost}>
+            CREATE POST
+          </button>
+        </div>
+        {allPosts.length ? (
+          <List data={currentPosts} onTagClick={handleTagClick} />
+        ) : (
+          <p>Loading</p>
+        )}
+        <div className='btn-page'>
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className='btn-last'
+          >
+            Last
+          </button>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === 2} // Update this condition based on your actual data
+            className='btn-next'
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

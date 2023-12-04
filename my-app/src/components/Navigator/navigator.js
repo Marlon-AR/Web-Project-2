@@ -32,15 +32,16 @@ const Navigation = () => {
             </div>
             <nav className='bnav'>
                 <ul>
-                    <li><input value={comment} onChange={handleCommentChange} onClick={() => {
-                        setComment('')}}//LIMPIAR CAMPO
-                        type = 'text' name = 'Buscador' id = 'Buscador' placeholder = 'Buscar' ></input></li>
-                <li><button id='home' onClick={home} >Home</button></li>
-                <li><button id='signoff' onClick={exit} >Sign off</button></li>
-            </ul>
-        </nav>
-        </div >
-    )
+                    <li><button id='home' onClick={home} >Home</button></li>
+                    <li><input className='input-nav' value={comment} onChange={handleCommentChange} onClick={() => {
+                        setComment('')
+                    }}//LIMPIAR CAMPO
+                        type='text' name='Buscador' id='Buscador' placeholder='Buscar' ></input></li>
+                </ul>
+                <button id='signoff' onClick={exit} >Sign off</button>
+            </nav>
+        </div >
+    )
 }
 
 export default Navigation;
