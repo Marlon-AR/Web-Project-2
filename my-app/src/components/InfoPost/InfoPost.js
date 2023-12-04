@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { getUserDataById, deletePostById, getUserDataPostById, uploadComments, updatePostById } from '../../service/Services';
+import { 
+  getUserDataById,
+  deletePostById,
+  getUserDataPostById,
+  uploadComments,
+  updatePostById,
+  getCommentsByPostId }
+from '../../service/Services';
 import '../InfoPost/infoPost.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa los estilos de Bootstrap
 import { Modal, Button } from 'react-bootstrap'; // Asegúrate de importar el Modal y Button de react-bootstrap
 //import { useNavigate } from 'react-router-dom';
+
 
 const VerPost = () => {
   const [postData, setpostData] = useState([]);
@@ -15,6 +23,8 @@ const VerPost = () => {
   const [postId, setpostId] = useState('');
   const [userId, setuserId] = useState('');
   const [userName, setuserName] = useState('');
+
+  const [commentsData, setCommentsData] = useState([]);
 
   //PARA ALMACENAR LOS DATOS DEL POST Y PODER EDITARLOS
   const [initialTitle, setInitialTitle] = useState(''); // GUARDA EL TITULO INICIAL PARA VOLVER A PINTARLO EN EDITAR
@@ -74,6 +84,52 @@ const VerPost = () => {
     fetchData();
   }, []);
 
+  /*const fetchComments = async () => {
+    try {
+      const comments = await getCommentsByPostId(postId);
+      const userIds = comments.flatMap(comment => comment.user ? comment.user.username : null);
+      console.log('nombre del usuario:', userIds.filter(username => username !== null));
+      //console.log(comments);
+      //console.log(userIds);
+
+      // Obtener todos los IDs de usuario de los comentarios
+      const usernames = comments.map((comment, index) => ({
+        ...comment,
+        username: userIds[index] ? userIds[index].username : null
+      }));
+      
+      console.log('Comentarios con nombres de usuario:', usernames);
+
+    } catch (error) {
+      console.error('Error al obtener comentarios:', error.message);
+    }
+  };*/
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const comments = await getCommentsByPostId(postId);
+        const userIds = comments.flatMap(comment => comment.user ? comment.user.username : null);
+        console.log('nombre del usuario:', userIds.filter(username => username !== null));
+
+        console.log(comments);
+        console.log(userIds);
+        // Obtener todos los IDs de usuario de los comentarios
+        const usernames = comments.map((comment, index) => ({
+          ...comment,
+          username: userIds[index] ? userIds[index].username : null
+        }));
+        
+        //console.log('Comentarios con nombres de usuario:', usernames);
+        setCommentsData(usernames); // Actualizar el estado con los comentarios y nombres de usuario
+      } catch (error) {
+        console.error('Error al obtener comentarios:', error.message);
+      }
+    };
+
+    fetchComments(); // Llamar a la función fetchComments al montar el componente o cuando 'postId' cambie
+  }, [postId]); // Ejecutar el efecto cada vez que 'postId' cambie
+
+
   /********************************* EDITAR **********************************************/
   const handleEdit = () => {
     setEditedTitle(postData[0].title);
@@ -132,6 +188,7 @@ const VerPost = () => {
 
   /***********************************COMENTARIOS********************************/
   return (
+    
     <div className="ver-post-container">
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
@@ -198,6 +255,14 @@ const VerPost = () => {
                       setComment('');//LIMPIAR CAMPO
 
                     }}>Enviar comentario</button>
+                    
+                  {/* Comentarios con nombres de usuario */}
+                  {post.comments && post.comments.map((comment, index) => (
+                  <div key={index} className="comment-with-user">
+                    <p className="comment">{comment.text}</p>
+                    <p className="username">Username: {comment.username}</p>
+                  </div>
+              ))}
                 </div>
 
                 <div className="button-container">
@@ -210,6 +275,14 @@ const VerPost = () => {
           </div>
         ))}
       </div>
+      <div>
+      {commentsData.map((comment, index) => (
+        <div key={index} className="comment-with-user">
+          <p className="comment">{comment.text}</p>
+          <p className="username">Username: {comment.username}</p>
+        </div>
+      ))}
+    </div>
     </div>
   );
 }
