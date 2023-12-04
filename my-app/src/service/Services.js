@@ -6,7 +6,9 @@ import {
     getDoc,
     deleteDoc,
     getDocs,
-    updateDoc
+    updateDoc,
+    query,
+    where
 } from 'firebase/firestore';
 
 //****************************************************************
@@ -149,3 +151,41 @@ export const updatePostById = async (postId, updatedData) => {
   }
 };
 //****************************************************************
+
+/*export const getCommentsByPostId = async (postId) => {
+  try {
+    const commentsCollectionRef = collection(db, 'comments');
+    const commentsQuery = query(commentsCollectionRef, where('postId', '==', postId));
+    const commentsSnapshot = await getDocs(commentsQuery);
+
+    const comments = commentsSnapshot.docs.map((commentDoc) => {
+      const commentData = commentDoc.data();
+      const userData = commentData.user || {}; // Manejar el caso en que user es undefined
+      console.log(userData.username)
+      return {
+        id: commentDoc.id,
+        ...commentData,
+        userId: userData.id,
+        username: userData.username,
+      };
+    });
+
+    return comments;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};*/
+
+export const getCommentsByPostId = async (postId) => {
+  try {
+    const commentsCollectionRef = collection(db, 'comments');
+    const commentsQuery = query(commentsCollectionRef, where('postId', '==', postId));
+    const commentsSnapshot = await getDocs(commentsQuery);
+
+    const comments = commentsSnapshot.docs.map((commentDoc) => commentDoc.data());
+
+    return comments;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};

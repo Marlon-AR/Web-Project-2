@@ -70,6 +70,23 @@
   }
   }
 }
+.comment-with-user {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  .comment {
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+
+  .username {
+    font-size: 12px;
+    font-style: italic;
+    color: #666;
+  }
+}
 
 @keyframes fadeIn {
   from {
