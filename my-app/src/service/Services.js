@@ -188,7 +188,7 @@ export const getUserDataPostById = async (idUser) => {
 // GUARDAR POSTS A FIRESTORE
 export const uploadPost = async(userInfo) => {
   try {
-      const userDocRef = await addDoc(collection(db,'users'),userInfo);
+      const userDocRef = await addDoc(collection(db,'posts'),userInfo);
       return userDocRef.id
   } catch (error) {
       throw new Error(error.message);

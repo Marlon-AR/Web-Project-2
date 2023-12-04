@@ -8,7 +8,7 @@ const PostForm = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [reactions, setReactions] = useState('');
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState([]);
   const [error, setError] = useState('');
   const userId = localStorage.getItem('idUser');
 
@@ -44,7 +44,7 @@ const PostForm = () => {
         body,
         reactions,
         tags,
-        userId,
+        userId
       };
 
       // Lógica de subida de datos a través del servicio uploadUserData
@@ -70,8 +70,7 @@ const PostForm = () => {
     }
   };
   const Exit = () => {
-    const navigate = useNavigate();
-    navigate('/');
+    navigate('/home');
   };
 
   return (
@@ -90,7 +89,7 @@ const PostForm = () => {
         <input type="number" value={reactions} onChange={(e) => setReactions(e.target.value)} className="inputField" />
         <br />
         <label>Tags:</label>
-        <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} className="inputField" />
+        <textarea value={Array.isArray(tags) ? tags.join(',') : ''} onChange={(e) => setTags(e.target.value.split(','))} className="inputField" />
         <br />
         <br>
         </br>
