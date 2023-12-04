@@ -21,6 +21,11 @@
       color: #007bff; /* Color del título del post */
       text-align: center;
     }
+    h1{
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #007bff; /* Color del título del post */
+    }
 
     p {
       font-size: 16px;
@@ -60,6 +65,7 @@
       }
     }
     .title-input,
+
   .body-textarea {
     width: 100%;
     padding: 10px;
@@ -68,23 +74,41 @@
     box-sizing: border-box;
     // Otros estilos necesarios para el input y textarea en modo edición
   }
-  }
-}
+  //SECCION DE COMENTARIO CON EL USUARIO
 .comment-with-user {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-
-  .comment {
-    margin-bottom: 5px;
-    font-size: 14px;
-  }
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: transform 0.3s ease; // Transición en la propiedad 'transform'
 
   .username {
-    font-size: 12px;
-    font-style: italic;
-    color: #666;
+    color: #0C1033;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .body {
+    color: #333;
+  }
+  .post-titleComments {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #007bff; /* Color del título del post */
+    text-align: center;
+  }
+
+  /*&:hover {
+    transform: scale(1.05); // Cambio de escala al hacer hover
+    background-color: #e2e2e2; // Cambio de color de fondo al hacer hover
+    transition: transform 0.3s ease, background-color 0.3s ease; // Transiciones
+  }*/
+  /*&:hover .username {
+    color: #ff6347; // Cambio de color del username al hacer hover
+    transition: color 0.3s ease; // Transición en la propiedad 'color' del username
+  }*/
+}
   }
 }
 

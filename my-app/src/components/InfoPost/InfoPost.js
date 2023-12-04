@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { 
+import {
   getUserDataById,
   deletePostById,
   getUserDataPostById,
   uploadComments,
   updatePostById,
-  getCommentsByPostId }
-from '../../service/Services';
+  getCommentsByPostId
+}
+  from '../../service/Services';
 import '../InfoPost/infoPost.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa los estilos de Bootstrap
 import { Modal, Button } from 'react-bootstrap'; // Asegúrate de importar el Modal y Button de react-bootstrap
@@ -84,50 +85,26 @@ const VerPost = () => {
     fetchData();
   }, []);
 
-  /*const fetchComments = async () => {
-    try {
-      const comments = await getCommentsByPostId(postId);
-      const userIds = comments.flatMap(comment => comment.user ? comment.user.username : null);
-      console.log('nombre del usuario:', userIds.filter(username => username !== null));
-      //console.log(comments);
-      //console.log(userIds);
-
-      // Obtener todos los IDs de usuario de los comentarios
-      const usernames = comments.map((comment, index) => ({
-        ...comment,
-        username: userIds[index] ? userIds[index].username : null
-      }));
-      
-      console.log('Comentarios con nombres de usuario:', usernames);
-
-    } catch (error) {
-      console.error('Error al obtener comentarios:', error.message);
-    }
-  };*/
+  //ESTE MOTODO SE EJECUTA Y TRAE LOS COEMNTARIOS DE LA BASE DE DATOS Y CREA UN NUEVO ARRAY DE LOS COMENTARIOS Y EL USERNAME DE SU CREADOR SEGUN EL ID DEL POST QUE ESTÉ 
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const comments = await getCommentsByPostId(postId);
-        const userIds = comments.flatMap(comment => comment.user ? comment.user.username : null);
-        console.log('nombre del usuario:', userIds.filter(username => username !== null));
 
-        console.log(comments);
-        console.log(userIds);
-        // Obtener todos los IDs de usuario de los comentarios
-        const usernames = comments.map((comment, index) => ({
-          ...comment,
-          username: userIds[index] ? userIds[index].username : null
+        // Extraer el body de cada comentario y el username del usuario
+        const commentsData = comments.map(comment => ({
+          body: comment.body,
+          username: comment.user ? comment.user.username : null
         }));
-        
-        //console.log('Comentarios con nombres de usuario:', usernames);
-        setCommentsData(usernames); // Actualizar el estado con los comentarios y nombres de usuario
+
+        setCommentsData(commentsData);
       } catch (error) {
         console.error('Error al obtener comentarios:', error.message);
       }
     };
 
-    fetchComments(); // Llamar a la función fetchComments al montar el componente o cuando 'postId' cambie
-  }, [postId]); // Ejecutar el efecto cada vez que 'postId' cambie
+    fetchComments();
+  }, [postId]);
 
 
   /********************************* EDITAR **********************************************/
@@ -188,7 +165,7 @@ const VerPost = () => {
 
   /***********************************COMENTARIOS********************************/
   return (
-    
+
     <div className="ver-post-container">
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
@@ -255,14 +232,14 @@ const VerPost = () => {
                       setComment('');//LIMPIAR CAMPO
 
                     }}>Enviar comentario</button>
-                    
+
                   {/* Comentarios con nombres de usuario */}
                   {post.comments && post.comments.map((comment, index) => (
-                  <div key={index} className="comment-with-user">
-                    <p className="comment">{comment.text}</p>
-                    <p className="username">Username: {comment.username}</p>
-                  </div>
-              ))}
+                    <div key={index} className="comment-with-user">
+                      <p className="comment">{comment.text}</p>
+                      <p className="username">Username: {comment.username}</p>
+                    </div>
+                  ))}
                 </div>
 
                 <div className="button-container">
@@ -270,19 +247,21 @@ const VerPost = () => {
                   <span style={{ margin: '0 5px' }}></span> {/* Solo Agrega un Espacio entre los botones de boostrap */}
                   <button className="btn btn-danger mt-2" onClick={() => handleDelete(post.id)} disabled>Eliminar</button>
                 </div>
+                <br />
+                <h1 className='title.comments'>Comentarios</h1>
+                {commentsData.map((comment, index) => (
+                  <div key={index} className="comment-with-user">
+                    <p className="username">{comment.username}</p>
+                    <p className="body">{comment.body}</p>
+                  </div>
+                ))}
               </>
             )}
           </div>
         ))}
       </div>
       <div>
-      {commentsData.map((comment, index) => (
-        <div key={index} className="comment-with-user">
-          <p className="comment">{comment.text}</p>
-          <p className="username">Username: {comment.username}</p>
-        </div>
-      ))}
-    </div>
+      </div>
     </div>
   );
 }
