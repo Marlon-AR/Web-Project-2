@@ -25,7 +25,12 @@ const VerPost = () => {
   const [userId, setuserId] = useState('');
   const [userName, setuserName] = useState('');
 
+  //COMENTARIOS
   const [commentsData, setCommentsData] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successfulMessage, setSuccessful] = useState('');
+  const [reloadData, setReloadData] = useState(false); // NUEVO ESTADO PARA FORZAR CARGA DE DATOS DE COMENTARIOS
+
 
   //PARA ALMACENAR LOS DATOS DEL POST Y PODER EDITARLOS
   const [initialTitle, setInitialTitle] = useState(''); // GUARDA EL TITULO INICIAL PARA VOLVER A PINTARLO EN EDITAR
@@ -41,7 +46,8 @@ const VerPost = () => {
   //const navigate = useNavigate(); //SE UNSA EN EL METODO DE 'confirmDelete'
 
 
-  const idPost = 'Yu5D3TxBhOQZuv35ns6h'//ENVIAR EL ID DEL POST SELECIONADO DESDE EL HOME
+  const idPost = localStorage.getItem('selectedPostId')
+  //const idPost = 'Yu5D3TxBhOQZuv35ns6h'//ENVIAR EL ID DEL POST SELECIONADO DESDE EL HOME
   localStorage.setItem('postId', idPost);//guardar en local esta linea la tengo que borrar luego.kassandra ya me va asubir el iddel post
 
   useEffect(() => {
@@ -83,7 +89,7 @@ const VerPost = () => {
       }
     }
     fetchData();
-  }, []);
+  }, [idPost]);
 
   //ESTE MOTODO SE EJECUTA Y TRAE LOS COEMNTARIOS DE LA BASE DE DATOS Y CREA UN NUEVO ARRAY DE LOS COMENTARIOS Y EL USERNAME DE SU CREADOR SEGUN EL ID DEL POST QUE ESTÉ 
   useEffect(() => {
@@ -104,7 +110,18 @@ const VerPost = () => {
     };
 
     fetchComments();
-  }, [postId]);
+  }, [postId,reloadData]);
+
+  //CARGA LAS ESTRELLAS SEGUN SUS REACCIONES
+  const StarRating = ({ rating }) => {
+    return (
+      <div className="star-rating">
+        {Array.from({ length: 5 }, (_, index) => (
+          <span key={index} className={index < rating ? 'star active' : 'star'}>&#9733;</span>
+        ))}
+      </div>
+    );
+  };
 
 
   /********************************* EDITAR **********************************************/
@@ -160,7 +177,27 @@ const VerPost = () => {
   /***********************************COMENTARIOS*********************************/
   const handleCommentChange = (event) => {
     setComment(event.target.value);
-    console.log('entro')
+  };
+
+  const handleCommentSubmit = async () => {
+    if (comment.trim() !== '') {//SI EL COEMNTARIO ESTA LLENO ENTONCES GUARDELO
+      await uploadComments(comment, postId, userId, userName);
+      setComment(''); // LIMPIAR CAMPO
+
+      setSuccessful('Comentario enviado exitosamente.');
+      // Después de 3 segundos, eliminar el mensaje de error
+      setTimeout(() => {
+        setSuccessful('');
+        setReloadData((prev) => !prev); // Cambia el estado para forzar la recarga de datos
+      }, 4000);
+
+    } else {
+      setErrorMessage('Ingresa un comentario antes de enviar.');
+      // Después de 3 segundos, eliminar el mensaje de error
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 4000);
+    }
   };
 
   /***********************************COMENTARIOS********************************/
@@ -214,6 +251,7 @@ const VerPost = () => {
                   {userData.map((user) => (
                     <p className='p-Autor'>{user.name}</p>
                   ))}
+                  <StarRating rating={post.reactions} />
 
                   <div className="comment-section">
                     {/* Caja de texto para el comentario */}
@@ -225,14 +263,24 @@ const VerPost = () => {
                       cols={50}
                       className="comment-textarea"
                     />
-                    <button variant="success"
+                    <button
+                      variant="success"
                       className="btn btn-success mt-2"
-                      onClick={() => {
-                        //console.log('Comentario enviado:', comment);
-                        uploadComments(comment, postId, userId, userName)
-                        setComment('');//LIMPIAR CAMPO
-
-                      }}>Enviar comentario</button>
+                      onClick={handleCommentSubmit}
+                    >Enviar comentario
+                    </button>
+                    {/*MENSAJE COMENTARIO GUARDADO EXITOSAMENTE*/}
+                    {errorMessage && (
+                      <div className="error-message">
+                        <p>{errorMessage}</p>
+                      </div>
+                    )}
+                    {/*MENSAJE COMENTARO GUARDADO EXITOSAMENTE*/}
+                    {successfulMessage && (
+                      <div className="successful-message">
+                        <p>{successfulMessage}</p>
+                      </div>
+                    )}
 
                     {/* Comentarios con nombres de usuario */}
                     {post.comments && post.comments.map((comment, index) => (

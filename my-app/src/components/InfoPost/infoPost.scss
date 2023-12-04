@@ -13,10 +13,37 @@
     margin-bottom: 20px;
     animation: fadeIn 0.5s ease-in-out forwards;
     background-color: #f9f9f9; /* Color de fondo del post */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra del post */
+    border-radius: 10px;
+    box-shadow: 0 0 4px #0C1033; /* Sombra del coments */
+
+    .star-rating {
+      .star {
+        font-size: 24px; /* Tamaño de la estrella */
+        color: #ccc; /* Color de la estrella inactiva */
+        margin-right: 4px; /* Espacio entre estrellas */
+    
+        &.active {
+          color: gold; /* Color de la estrella activa */
+        }
+      }
+    }
+    .error-message p{
+      color: #ff0000; /* Color del texto (rojo) */
+      padding: 1px; /* Espaciado interno */
+      border-radius: 5px; /* Bordes redondeados */
+      margin-bottom: 1px; /* Margen inferior */
+    }    
+    .successful-message p{
+      color: #00ff11; /* Color del texto (rojo) */
+      padding: 1px; /* Espaciado interno */
+      border-radius: 5px; /* Bordes redondeados */
+      margin-bottom: 1px; /* Margen inferior */
+    }
+    
+    
 
     h3 {
-      font-size: 24px;
+      font-size: 30px;
       margin-bottom: 10px;
       color: #007bff; /* Color del título del post */
       text-align: center;
@@ -24,12 +51,12 @@
     h1{
       font-size: 24px;
       margin-bottom: 10px;
-      color: #007bff; /* Color del título del post */
+      color: #0C1033; /* Color del título del post */
     }
 
     p {
-      font-size: 16px;
-      color: #555; /* Color del texto del post */
+      font-size: 18px;
+      color: #000000; /* Color del texto del post */
     }
     .p-Autor{
       font-size: 16px;
@@ -81,12 +108,14 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #f9f9f9;
+  box-shadow: 0 0 4px #0C1033; /* Sombra del coments */
   transition: transform 0.3s ease; // Transición en la propiedad 'transform'
 
   .username {
     color: #0C1033;
     font-weight: bold;
     margin-bottom: 5px;
+    text-align: right;
   }
 
   .body {
