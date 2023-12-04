@@ -28,7 +28,6 @@ const VerPost = () => {
   //COMENTARIOS
   const [commentsData, setCommentsData] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [successfulMessage, setSuccessful] = useState('');
   const [reloadData, setReloadData] = useState(false); // NUEVO ESTADO PARA FORZAR CARGA DE DATOS DE COMENTARIOS
 
 
@@ -96,21 +95,26 @@ const VerPost = () => {
     const fetchComments = async () => {
       try {
         const comments = await getCommentsByPostId(postId);
-
-        // Extraer el body de cada comentario y el username del usuario
-        const commentsData = comments.map(comment => ({
-          body: comment.body,
-          username: comment.user ? comment.user.username : null
-        }));
-
-        setCommentsData(commentsData);
+  
+        if (comments.length === 0) {
+          // Si no hay comentarios, establecer un mensaje predeterminado
+          setCommentsData([{ body: 'No hay comentarios', username: null }]);
+        } else {
+          // Si hay comentarios, procesarlos normalmente
+          const commentsData = comments.map(comment => ({
+            body: comment.body,
+            username: comment.user ? comment.user.username : null
+          }));
+          setCommentsData(commentsData);
+        }
       } catch (error) {
         console.error('Error al obtener comentarios:', error.message);
       }
     };
-
+  
     fetchComments();
-  }, [postId,reloadData]);
+  }, [postId, reloadData]);
+  
 
   //CARGA LAS ESTRELLAS SEGUN SUS REACCIONES
   const StarRating = ({ rating }) => {
@@ -184,38 +188,34 @@ const VerPost = () => {
       await uploadComments(comment, postId, userId, userName);
       setComment(''); // LIMPIAR CAMPO
 
-      setSuccessful('Comentario enviado exitosamente.');
-      // Después de 3 segundos, eliminar el mensaje de error
-      setTimeout(() => {
-        setSuccessful('');
-        setReloadData((prev) => !prev); // Cambia el estado para forzar la recarga de datos
-      }, 4000);
+      setReloadData((prev) => !prev); // Cambia el estado para forzar la recarga de datos
+
 
     } else {
       setErrorMessage('Ingresa un comentario antes de enviar.');
       // Después de 3 segundos, eliminar el mensaje de error
       setTimeout(() => {
         setErrorMessage('');
-      }, 4000);
+      }, 3000);
     }
   };
 
   /***********************************COMENTARIOS********************************/
   return (
-    <div>
+    <div className='container'>
       <Navigation />
       <div className="ver-post-container">
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
-            <Modal.Title>Confirmar eliminación</Modal.Title>
+            <Modal.Title>Confirm deletion</Modal.Title>
           </Modal.Header>
-          <Modal.Body>¿Estás seguro de que deseas eliminar este post?</Modal.Body>
+          <Modal.Body>Are you sure you want to delete this post</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal}>
               No
             </Button>
             <Button variant="danger" onClick={confirmDelete}>
-              Sí
+              Yes
             </Button>
           </Modal.Footer>
         </Modal>
@@ -240,8 +240,8 @@ const VerPost = () => {
                     placeholder="Cuerpo del post..."
                   />
                   <div className="button-container">
-                    <button onClick={handleSave} className="btn btn-primary mt-2" >Guardar cambios</button>
-                    <button onClick={handleCancel} className="btn btn-danger mt-2">Cancelar</button>
+                    <button onClick={handleSave} className="btn btn-primary mt-2" >Save Changes</button>
+                    <button onClick={handleCancel} className="btn btn-danger mt-2">Cancel</button>
                   </div>
                 </>
               ) : (
@@ -249,7 +249,7 @@ const VerPost = () => {
                   <h3 className="post-title">{post.title}</h3>
                   <p className="post-body">{post.body}</p>
                   {userData.map((user) => (
-                    <p className='p-Autor'>{user.name}</p>
+                    <p className='p-Autor'> Author: {user.name}</p>
                   ))}
                   <StarRating rating={post.reactions} />
 
@@ -267,18 +267,12 @@ const VerPost = () => {
                       variant="success"
                       className="btn btn-success mt-2"
                       onClick={handleCommentSubmit}
-                    >Enviar comentario
+                    >Send comment
                     </button>
                     {/*MENSAJE COMENTARIO GUARDADO EXITOSAMENTE*/}
                     {errorMessage && (
                       <div className="error-message">
                         <p>{errorMessage}</p>
-                      </div>
-                    )}
-                    {/*MENSAJE COMENTARO GUARDADO EXITOSAMENTE*/}
-                    {successfulMessage && (
-                      <div className="successful-message">
-                        <p>{successfulMessage}</p>
                       </div>
                     )}
 
@@ -292,12 +286,12 @@ const VerPost = () => {
                   </div>
 
                   <div className="button-container">
-                    <button className="btn btn-primary mt-2" onClick={() => handleEdit(post.id)}>Editar</button>
+                    <button className="btn btn-primary mt-2" onClick={() => handleEdit(post.id)}>Edit</button>
                     <span style={{ margin: '0 5px' }}></span> {/* Solo Agrega un Espacio entre los botones de boostrap */}
-                    <button className="btn btn-danger mt-2" onClick={() => handleDelete(post.id)} disabled>Eliminar</button>
+                    <button className="btn btn-danger mt-2" onClick={() => handleDelete(post.id)}>Eliminate</button>
                   </div>
                   <br />
-                  <h1 className='title.comments'>Comentarios</h1>
+                  <h1 className='title.comments'>Comments</h1>
                   {commentsData.map((comment, index) => (
                     <div key={index} className="comment-with-user">
                       <p className="username">{comment.username}</p>

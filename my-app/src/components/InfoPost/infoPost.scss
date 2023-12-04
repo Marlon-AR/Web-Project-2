@@ -4,7 +4,8 @@
   h1 {
     font-size: 24px;
     margin-bottom: 10px;
-    color: #333; /* Color del título */
+    color: #333;
+    /* Color del título */
   }
 
   .post {
@@ -12,67 +13,91 @@
     padding: 15px;
     margin-bottom: 20px;
     animation: fadeIn 0.5s ease-in-out forwards;
-    background-color: #f9f9f9; /* Color de fondo del post */
-    border-radius: 10px;
-    box-shadow: 0 0 4px #0C1033; /* Sombra del coments */
+    background-color: #f2f5fc;
+    /* Color de fondo del post */
+    border-radius: 5px;
 
     .star-rating {
       .star {
-        font-size: 24px; /* Tamaño de la estrella */
-        color: #ccc; /* Color de la estrella inactiva */
-        margin-right: 4px; /* Espacio entre estrellas */
-    
+        font-size: 24px;
+        /* Tamaño de la estrella */
+        color: #ccc;
+        /* Color de la estrella inactiva */
+        margin-right: 4px;
+        /* Espacio entre estrellas */
+
         &.active {
-          color: gold; /* Color de la estrella activa */
+          color: gold;
+          /* Color de la estrella activa */
         }
       }
     }
-    .error-message p{
-      color: #ff0000; /* Color del texto (rojo) */
-      padding: 1px; /* Espaciado interno */
-      border-radius: 5px; /* Bordes redondeados */
-      margin-bottom: 1px; /* Margen inferior */
-    }    
-    .successful-message p{
-      color: #00ff11; /* Color del texto (rojo) */
-      padding: 1px; /* Espaciado interno */
-      border-radius: 5px; /* Bordes redondeados */
-      margin-bottom: 1px; /* Margen inferior */
+
+    .error-message p {
+      color: #ff0000;
+      /* Color del texto (rojo) */
+      padding: 1px;
+      /* Espaciado interno */
+      border-radius: 5px;
+      /* Bordes redondeados */
+      margin-bottom: 1px;
+      /* Margen inferior */
     }
-    
-    
+
+    .successful-message p {
+      color: #00ff11;
+      /* Color del texto (rojo) */
+      padding: 1px;
+      /* Espaciado interno */
+      border-radius: 5px;
+      /* Bordes redondeados */
+      margin-bottom: 1px;
+      /* Margen inferior */
+    }
+
+
 
     h3 {
       font-size: 30px;
       margin-bottom: 10px;
-      color: #007bff; /* Color del título del post */
+      color: #2f57d7;
+      /* Color del título del post */
       text-align: center;
     }
-    h1{
+
+    h1 {
       font-size: 24px;
       margin-bottom: 10px;
-      color: #0C1033; /* Color del título del post */
+      color: #2f57d7;
+      /* Color del título del post */
     }
 
     p {
       font-size: 18px;
-      color: #000000; /* Color del texto del post */
+      color: #000000;
+      /* Color del texto del post */
     }
-    .p-Autor{
+
+    .p-Autor {
       font-size: 16px;
-      color: #000000; /* Color del texto del post */
+      color: #2f57d7;
+      /* Color del texto del post */
       font-weight: bold;
-      text-align: right;
+      text-align: left;
     }
+
     .button-container {
       display: flex;
-      justify-content: flex-end; /* Coloca los botones al lado derecho */
+      justify-content: flex-end;
+      /* Coloca los botones al lado derecho */
       margin-top: 10px;
 
       button {
-        margin-left: 5px; /* Agrega espacio entre los botones */
+        margin-left: 5px;
+        /* Agrega espacio entre los botones */
       }
     }
+
     .comment-section {
       display: flex;
       flex-direction: column;
@@ -80,64 +105,64 @@
       margin-top: 10px;
 
       .comment-textarea {
-        width: 100%; /* Ancho del 100% para adaptarse al contenedor */
-        border: 1px solid #ccc;
+        width: 100%;
+        /* Ancho del 100% para adaptarse al contenedor */
+        border: 1px solid #2f57d7;
         padding: 8px;
+        border-radius: 10px;
         font-size: 14px;
-        resize: vertical; /* Permitir redimensionamiento vertical */
+        resize: vertical;
+        /* Permitir redimensionamiento vertical */
 
         @media (max-width: 768px) {
-          font-size: 12px; /* Reducir el tamaño de fuente en pantallas más pequeñas */
+          font-size: 12px;
+          /* Reducir el tamaño de fuente en pantallas más pequeñas */
         }
       }
     }
+
     .title-input,
 
-  .body-textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    resize: vertical;
-    box-sizing: border-box;
-    // Otros estilos necesarios para el input y textarea en modo edición
-  }
-  //SECCION DE COMENTARIO CON EL USUARIO
-.comment-with-user {
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 0 4px #0C1033; /* Sombra del coments */
-  transition: transform 0.3s ease; // Transición en la propiedad 'transform'
+    .body-textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      resize: vertical;
+      box-sizing: border-box;
+      // Otros estilos necesarios para el input y textarea en modo edición
+    }
 
-  .username {
-    color: #0C1033;
-    font-weight: bold;
-    margin-bottom: 5px;
-    text-align: right;
-  }
+    //SECCION DE COMENTARIO CON EL USUARIO
+    .comment-with-user {
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #dfe4f6;
+      border: #2f57d7;
+      transition: transform 0.3s ease; // Transición en la propiedad 'transform'
 
-  .body {
-    color: #333;
-  }
-  .post-titleComments {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #007bff; /* Color del título del post */
-    text-align: center;
-  }
+      .username {
+        color: #003cff;
+        font-weight: bold;
+        margin-bottom: 5px;
+        text-align: right;
+      }
 
-  /*&:hover {
-    transform: scale(1.05); // Cambio de escala al hacer hover
-    background-color: #e2e2e2; // Cambio de color de fondo al hacer hover
-    transition: transform 0.3s ease, background-color 0.3s ease; // Transiciones
-  }*/
-  /*&:hover .username {
-    color: #ff6347; // Cambio de color del username al hacer hover
-    transition: color 0.3s ease; // Transición en la propiedad 'color' del username
-  }*/
-}
+      .body {
+        color: #000000;
+        font-style: italic;
+
+      }
+
+      .post-titleComments {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #007bff;
+        /* Color del título del post */
+        text-align: center;
+      }
+    }
   }
 }
 
@@ -146,6 +171,7 @@
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
