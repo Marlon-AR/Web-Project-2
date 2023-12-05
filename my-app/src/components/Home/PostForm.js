@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { uploadPost } from '../../service/Services';
-import './form.css';
+import './form.scss';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import Navigation from '../Navigator/navigator';
 
@@ -99,7 +99,6 @@ const PostForm = () => {
         </div>
         {showSuccessMessage && <p style={{ color: 'green' }}>¡Datos guardados!</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
-
       </form>
     </div>
   );

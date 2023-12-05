@@ -12,7 +12,7 @@ const Login= () => {
   /*ID DE CRISTIAN*/'186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com'
   /*ID DE KAREN*/'999930076380-lmdbg9mc5c75uceiqq6brjj7gmlgefhh.apps.googleusercontent.com'
   /*ID DE KASANDRA*/'999930076380-qk5iaulidolr0ve6jpekaia9krcfhfev.apps.googleusercontent.com'
-  const CLIENT_ID = "186393898515-e9rob8vfk1ntvqjak9j4i1r38gfcfmqt.apps.googleusercontent.com";
+  const CLIENT_ID = "999930076380-qk5iaulidolr0ve6jpekaia9krcfhfev.apps.googleusercontent.com";
   
   //constante para navegar
   const navigate = useNavigate();

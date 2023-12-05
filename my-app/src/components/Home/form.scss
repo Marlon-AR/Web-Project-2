@@ -1,0 +1,68 @@
+@import '../../styles/mixins/media-quieries.scss';
+@import '../../styles/variables/colors.scss';
+
+.formContainer {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: $color-grey;
+    padding: 20px;
+    border-radius: 5px;
+
+    .formField {
+        margin-bottom: 10px;
+
+        .formFieldTitulo {
+            text-align: center;
+            font-size: 2rem;
+            color: $color-main;
+            border-bottom: 2px solid $color-blue-grey;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            font-family: "Arial, sans-serif";
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .inputField {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid $color-bone-white;
+            border-radius: 5px;
+        }
+    }
+
+    .inputField {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid $color-bone-white;
+        border-radius: 5px;
+    }
+
+    .buttonContainer {
+        display: flex;
+        /* Utiliza flexbox para colocar los botones en fila */
+        justify-content: space-between;
+        /* Agrega espacio entre los botones */
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submitButton {
+            background-color: $color-light-green;
+            color: $color-white;
+            margin-right: 10px;
+            /* Margen entre el primer y segundo botón */
+        }
+
+        .submitButtonSalir {
+            background-color: $color-red-light;
+            color: $color-white;
+            margin-right: 10px;
+            /* Margen entre el segundo y tercer botón */
+        }
+    }
+}
