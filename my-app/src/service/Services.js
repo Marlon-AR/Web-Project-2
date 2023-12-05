@@ -208,6 +208,8 @@ export const deletePostById = async (idPost) => {
 //EDITA LOS NUEVOS CAMPOS DEL POST TITULO Y CUERPO
 export const updatePostById = async (postId, updatedData) => {
   try {
+    console.log(postId)
+    console.log(updatedData)
     const postDocRef = doc(db, 'posts', postId); // Referencia al documento del post por su ID
 
     await updateDoc(postDocRef, updatedData);

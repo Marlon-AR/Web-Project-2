@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import {
   getUserDataById,
-  deletePostById,
   getUserDataPostById,
   uploadComments,
   updatePostById,
-  getCommentsByPostId
+  getCommentsByPostId,
 }
   from '../../service/Services';
 import '../InfoPost/infoPost.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa los estilos de Bootstrap
-import { Modal, Button } from 'react-bootstrap'; // Asegúrate de importar el Modal y Button de react-bootstrap
-import { useNavigate } from 'react-router-dom';
 import Navigation from '../Navigator/navigator';
 
 const VerPost = () => {
   const [postData, setpostData] = useState([]);
   const [userData, setuserData] = useState([]);
-  const [showModal, setShowModal] = useState(false);
 
   //PARA GUARDAR LAS VARIABLES DE COMENTARIOS
   const [comment, setComment] = useState('');
   const [postId, setpostId] = useState('');
-  const [userId, setuserId] = useState('');
-  const [userName, setuserName] = useState('');
 
   //COMENTARIOS
   const [commentsData, setCommentsData] = useState([]);
@@ -39,7 +33,6 @@ const VerPost = () => {
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
 
-  const navigate = useNavigate(); //SE UNSA EN EL METODO DE 'confirmDelete'
 
   //ID DEL POST SELECIONADO DE LOCALSTORAGE QUE VIENE DESDE EL HOME
   const idPost = localStorage.getItem('selectedPostId')
@@ -64,8 +57,6 @@ const VerPost = () => {
             //console.log(user);
             if (user) {
               setuserData([user]);
-              setuserId(user.aud)
-              setuserName(user.name)
             } else {
               console.log('No se encontró el usuario del post');
               return null;
@@ -123,16 +114,10 @@ const VerPost = () => {
 
 
   /********************************* EDITAR **********************************************/
-  const handleEdit = () => {
-    setEditedTitle(postData[0].title);
-    setEditedBody(postData[0].body);
-    setIsEditing(true);
-  };
 
   const handleSave = async () => {
     try {
-      const postIdLocal = localStorage.getItem('postId');
-      console.log(postIdLocal)
+      const postId = localStorage.getItem('postId');
       console.log(editedTitle)
       console.log(editedBody)
       await updatePostById(postId, { title: editedTitle, body: editedBody });
@@ -158,29 +143,17 @@ const VerPost = () => {
 
   /********************************* EDITAR **********************************************/
 
-  /********************************* MODAL, ELIMINAR **********************************************/
-  const handleDelete = () => {
-    setShowModal(true);
-  };
-  const confirmDelete = () => {
-    const localIdPost = localStorage.getItem('postId');
-    deletePostById(localIdPost);
-    setShowModal(false);
-    navigate('/home');  //DESPUES DE QUE ELIMINE EL MODAL DE UNA VEZ SE DIRIGE AL HOME
-  };
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-  /********************************** MODAL, ELIMINAR *********************************************/
-
   /***********************************COMENTARIOS*********************************/
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
 
   const handleCommentSubmit = async () => {
+    const idUserLocalStorage = localStorage.getItem('idUser');
+    const userNameLocalStorage = localStorage.getItem('nombre');
+    console.log(idUserLocalStorage)
     if (comment.trim() !== '') {//SI EL COEMNTARIO ESTA LLENO ENTONCES GUARDELO
-      await uploadComments(comment, postId, userId, userName);
+      await uploadComments(comment, postId, idUserLocalStorage, userNameLocalStorage);
       setComment(''); // LIMPIAR CAMPO
 
       setReloadData((prev) => !prev); // Cambia el estado para forzar la recarga de datos
@@ -200,20 +173,6 @@ const VerPost = () => {
     <div className='container'>
       <Navigation />
       <div className="ver-post-container">
-        <Modal show={showModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Confirm deletion</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Are you sure you want to delete this post</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              No
-            </Button>
-            <Button variant="danger" onClick={confirmDelete}>
-              Yes
-            </Button>
-          </Modal.Footer>
-        </Modal>
         <div>
           {postData.map((post) => (
             <div className="post" key={post.id}>
@@ -280,11 +239,7 @@ const VerPost = () => {
                     ))}
                   </div>
 
-                  <div className="button-container">
-                    <button className="btn btn-primary mt-2" onClick={() => handleEdit(post.id)}>Edit</button>
-                    <span style={{ margin: '0 5px' }}></span> {/* Solo Agrega un Espacio entre los botones de boostrap */}
-                    <button className="btn btn-danger mt-2" onClick={() => handleDelete(post.id)}>Eliminate</button>
-                  </div>
+
                   <br />
                   <h1 className='title.comments'>Comments</h1>
                   {commentsData.map((comment, index) => (

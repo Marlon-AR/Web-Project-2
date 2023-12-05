@@ -47,7 +47,7 @@ function List({ data, onTagClick }) {
   const HandlePostClick = (postId) => {
     localStorage.setItem('selectedPostId', postId);
     setIdPost(postId);
-    navigate('/InfoPost');
+    navigate('/infoPostFiltro');
   };
 
   const listPosts = data.map((post) => (
