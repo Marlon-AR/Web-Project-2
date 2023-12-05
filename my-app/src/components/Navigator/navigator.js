@@ -33,10 +33,6 @@ const Navigation = () => {
             <nav className='bnav'>
                 <ul>
                     <li><button id='home' onClick={home} >Home</button></li>
-                    <li><input className='input-nav' value={comment} onChange={handleCommentChange} onClick={() => {
-                        setComment('')
-                    }}//LIMPIAR CAMPO
-                        type='text' name='Buscador' id='Buscador' placeholder='Buscar' ></input></li>
                 </ul>
                 <button id='signoff' onClick={exit} >Sign off</button>
             </nav>

@@ -1,8 +1,9 @@
 .buttons {
+
     .btn-viewposts {
         display: flex;
         margin: 15px auto;
-        width: 79%;
+        width: 85%;
 
         button {
             margin: 8px;
@@ -13,6 +14,11 @@
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease 0s;
+        }
+
+        .input-nav {
+            padding: 10px 5px;
+            border-radius: 6px;
         }
     }
 

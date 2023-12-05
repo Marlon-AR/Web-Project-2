@@ -57,7 +57,7 @@ function List({ data, onTagClick }) {
       id={post.id}
       onClick={() => HandlePostClick(post.id)}
     >
-      <h2>{post.title}</h2>
+      <h2 className="show">{post.title}</h2>
       <p>{post.body ? post.body.split('.')[0] : ''}</p>
       <NameUser userId={post.userId} />
       <StarRating rating={post.reactions} />

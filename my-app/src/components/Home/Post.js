@@ -3,10 +3,12 @@ import List from './List';
 import { getPostByIdUser, getAllPostsFromFirestore } from '../../service/Services';
 import { useNavigate } from 'react-router-dom';
 import Navigation from '../Navigator/navigator';
+import Footer from '../Footer/Footer';
 
 const Posts = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState(''); // Nuevo estado para término de búsqueda
   const itemsPerPage = 5;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -86,6 +88,15 @@ const Posts = () => {
     navigate('/postForm');
   };
 
+  const handleSearch = () => {
+    // Filtrar posts según el término de búsqueda
+    const filteredPosts = allPosts.filter((post) =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setCurrentPage(1);
+    setAllPosts(filteredPosts);
+  };
+
   return (
     <div>
       <Navigation />
@@ -101,6 +112,17 @@ const Posts = () => {
           <button className='btn-create' onClick={createPost}>
             CREATE POST
           </button>
+          <input
+            className='input-nav'
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onClick={() => setSearchTerm('')}
+            type='text'
+            name='Buscador'
+            id='Buscador'
+            placeholder='Search'
+          />
+          <button onClick={handleSearch}>Buscar</button>
         </div>
         {allPosts.length ? (
           <List data={currentPosts} onTagClick={handleTagClick} />
@@ -124,6 +146,7 @@ const Posts = () => {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -14,7 +14,7 @@
         align-items: center;
 
         .hero-text {
-            color: #ffff;
+            color: $color-white;
             text-align: center;
 
             h1 {
@@ -22,15 +22,13 @@
                 /*Tamaño del texto welcome*/
                 font-weight: bold;
                 font-style: italic;
-                -webkit-text-stroke: 2px rgba(255, 255, 255, 0.637);
+                -webkit-text-stroke: 2px $color-grey;
                 /*Le da delineado al texto*/
             }
-
         }
     }
 
     .bnav {
-
         background-color: $color-main;
         color: $color-white;
         display: flex;
