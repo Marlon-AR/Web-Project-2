@@ -26,11 +26,12 @@ export const uploadUser = async(userInfo) => {
 
 //****************************************************************
 // GUARDAR COMENTARIOS A FIRESTORE
-export const uploadComments = async(body,postId,id,username) => {
+export const uploadComments = async(body,postId,id,username,currentDate) => {
 
     const commentsData = {
       body,
       postId,
+      currentDate,
       user: {
         id,
         username

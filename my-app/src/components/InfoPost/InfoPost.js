@@ -39,6 +39,8 @@ const VerPost = () => {
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
 
+  const [currentDate, setCurrentDate] = useState('');
+
   const navigate = useNavigate(); //SE UNSA EN EL METODO DE 'confirmDelete'
 
   //ID DEL POST SELECIONADO DE LOCALSTORAGE QUE VIENE DESDE EL HOME
@@ -90,14 +92,15 @@ const VerPost = () => {
     const fetchComments = async () => {
       try {
         const comments = await getCommentsByPostId(postId);
-  
+
         if (comments.length === 0) {
           setCommentsData([{ body: 'No hay comentarios', username: null }]);
         } else {
 
           const commentsData = comments.map(comment => ({
             body: comment.body,
-            username: comment.user ? comment.user.username : null
+            username: comment.user ? comment.user.username : null,
+            date: comment.currentDate
           }));
           setCommentsData(commentsData);
         }
@@ -105,10 +108,10 @@ const VerPost = () => {
         console.error('Error al obtener comentarios:', error.message);
       }
     };
-  
+
     fetchComments();
   }, [postId, reloadData]);
-  
+
 
   //CARGA LAS ESTRELLAS SEGUN SUS REACCIONES
   const StarRating = ({ rating }) => {
@@ -120,6 +123,12 @@ const VerPost = () => {
       </div>
     );
   };
+
+  useEffect(() => {
+    const date = new Date();
+    setCurrentDate(date.toDateString());
+  }, [currentDate]);
+
 
 
   /********************************* EDITAR **********************************************/
@@ -180,7 +189,7 @@ const VerPost = () => {
 
   const handleCommentSubmit = async () => {
     if (comment.trim() !== '') {//SI EL COEMNTARIO ESTA LLENO ENTONCES GUARDELO
-      await uploadComments(comment, postId, userId, userName);
+      await uploadComments(comment, postId, userId, userName, currentDate);
       setComment(''); // LIMPIAR CAMPO
 
       setReloadData((prev) => !prev); // Cambia el estado para forzar la recarga de datos
@@ -243,6 +252,13 @@ const VerPost = () => {
                 <>
                   <h3 className="post-title">{post.title}</h3>
                   <p className="post-body">{post.body}</p>
+                  <ul style={{ display: 'flex', justifyContent: 'flex-end', listStyle: 'none', padding: 0 }}>
+                    <li style={{ marginRight: '8px' }}><p className='tags-post'>{post.tags[0]}</p></li>
+                    <li style={{ marginRight: '8px' }}><p className='tags-post'>{post.tags[1]}</p></li>
+                    <li style={{ marginRight: '8px' }}><p className='tags-post'>{post.tags[2]}</p></li>
+                    <li style={{ marginRight: '8px' }}><p className='tags-post'>{post.tags[3]}</p></li>
+                    <li style={{ marginRight: '8px' }}><p className='tags-post'>{post.tags[4]}</p></li>
+                  </ul>
                   {userData.map((user) => (
                     <p className='p-Autor'> Author: {user.name}</p>
                   ))}
@@ -291,6 +307,7 @@ const VerPost = () => {
                     <div key={index} className="comment-with-user">
                       <p className="username">{comment.username}</p>
                       <p className="body">{comment.body}</p>
+                      <p className='CurrentDate'>{comment.date}</p>
                     </div>
                   ))}
                 </>

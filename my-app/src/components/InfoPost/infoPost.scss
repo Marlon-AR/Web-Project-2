@@ -1,3 +1,5 @@
+@import '../../styles/variables/colors.scss';
+
 .ver-post-container {
   padding: 20px;
 
@@ -31,6 +33,17 @@
           /* Color de la estrella activa */
         }
       }
+    }
+    .tags-post{
+      color:white ;
+      font-weight: bold;
+      text-align: right;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-top: 5;
+      background-color:$color-main;
+      padding: 2px;
     }
 
     .error-message p {
@@ -153,6 +166,12 @@
         color: #000000;
         font-style: italic;
 
+      }
+      .CurrentDate{
+        color: #000000;
+        font-weight: bold;
+        text-align: right;
+        font-size: 12px;
       }
 
       .post-titleComments {
